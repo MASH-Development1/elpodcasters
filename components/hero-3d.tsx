@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import Spline from '@splinetool/react-spline';
 
 export function Hero3D() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -24,17 +25,27 @@ export function Hero3D() {
 
   return (
     <div className="relative w-full min-h-screen bg-background overflow-hidden flex items-center justify-center pt-20 border-b-8 border-primary">
-      {/* Dynamic Background Grid Pattern */}
+      {/* Dynamic Background Grid Pattern (Behind Spline) */}
       <div
-        className="absolute inset-0 z-0 opacity-20"
+        className="absolute inset-0 z-0 opacity-30 pointer-events-none"
         style={{
-          backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px)',
           backgroundSize: '50px 50px',
           backgroundPosition: 'center center',
           transform: `translate(${mousePosition.x * -2}px, ${mousePosition.y * -2}px)`,
           transition: 'transform 0.1s ease-out'
         }}
       />
+
+      {/* Spline 3D Scene - Covering the entire hero section */}
+      <div className="absolute top-0 left-0 w-full h-full z-[1] hidden md:block">
+        <Spline
+          scene="https://prod.spline.design/EtAHnj9uvWyl5Dcr/scene.splinecode"
+          className="w-full h-full"
+        />
+        {/* Anti-Watermark Overlay Block */}
+        <div className="absolute bottom-0 right-0 w-[160px] h-[70px] bg-background pointer-events-none z-[2]" />
+      </div>
 
       {/* Floating Geometric Shapes (Parallax) */}
       <motion.div style={{ y: y1 }} className="absolute z-0 w-full h-full pointer-events-none flex items-center justify-center">
@@ -61,14 +72,14 @@ export function Hero3D() {
       </motion.div>
 
       {/* Main Content Area */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center pointer-events-none">
 
         {/* Left Typography Block */}
         <div className="space-y-8">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 1.2, ease: "easeOut", delay: 8 }}
           >
             <div className="inline-block bg-primary text-background font-bold tracking-widest uppercase px-4 py-2 mb-6">
               Welcome to the Universe
@@ -85,10 +96,10 @@ export function Hero3D() {
           </motion.div>
 
           <motion.div
-            className="flex flex-wrap gap-4 pt-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="flex flex-wrap gap-4 pt-4 pointer-events-auto"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut", delay: 8 }}
           >
             <Link href="/explore">
               <motion.button
@@ -119,50 +130,51 @@ export function Hero3D() {
         </div>
 
         {/* Right Interactive Image/Logo Block */}
-        <motion.div
-          className="relative h-[60vh] hidden lg:flex items-center justify-center p-12"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          style={{ y: y2 }}
-        >
-          {/* Interactive Tilt Container */}
-          <motion.div
-            className="relative w-full h-full bg-card border-2 border-border flex items-center justify-center shadow-2xl"
-            style={{
-              x: mousePosition.x * 1,
-              y: mousePosition.y * 1,
-              rotateX: mousePosition.y * -0.5,
-              rotateY: mousePosition.x * 0.5,
-              transformStyle: "preserve-3d"
-            }}
-          >
-            {/* Inner Brand Elements */}
-            <div className="absolute inset-4 border border-border/50" />
-
-            <motion.div
-              className="relative w-64 h-64 z-20"
-              style={{ translateZ: 50 }}
-            >
-              <Image
-                src="/logo.png"
-                alt="El-Podcasters"
-                fill
-                className="object-contain drop-shadow-2xl"
-                priority
-              />
-            </motion.div>
-
-            {/* Accent corner blocks */}
-            <div className="absolute top-0 left-0 w-8 h-8 bg-primary" />
-            <div className="absolute bottom-0 right-0 w-8 h-8 bg-secondary" />
-          </motion.div>
-
-          {/* Background offset block for depth */}
-          <div className="absolute inset-12 bg-accent/20 border-2 border-accent translate-x-8 translate-y-8 -z-10" />
-        </motion.div>
 
       </div>
     </div>
   );
 }
+
+// <motion.div
+//           className="relative h-[60vh] hidden lg:flex items-center justify-center p-12"
+//           initial={{ opacity: 0, scale: 0.8 }}
+//           animate={{ opacity: 1, scale: 1 }}
+//           transition={{ duration: 1, ease: "easeOut" }}
+//           style={{ y: y2 }}
+//         >
+//           {/* Interactive Tilt Container */}
+//           <motion.div
+//             className="relative w-full h-full bg-card border-2 border-border flex items-center justify-center shadow-2xl"
+//             style={{
+//               x: mousePosition.x * 1,
+//               y: mousePosition.y * 1,
+//               rotateX: mousePosition.y * -0.5,
+//               rotateY: mousePosition.x * 0.5,
+//               transformStyle: "preserve-3d"
+//             }}
+//           >
+//             {/* Inner Brand Elements */}
+//             <div className="absolute inset-4 border border-border/50" />
+
+//             <motion.div
+//               className="relative w-64 h-64 z-20"
+//               style={{ translateZ: 50 }}
+//             >
+//               <Image
+//                 src="/logo.png"
+//                 alt="El-Podcasters"
+//                 fill
+//                 className="object-contain drop-shadow-2xl"
+//                 priority
+//               />
+//             </motion.div>
+
+//             {/* Accent corner blocks */}
+//             <div className="absolute top-0 left-0 w-8 h-8 bg-primary" />
+//             <div className="absolute bottom-0 right-0 w-8 h-8 bg-secondary" />
+//           </motion.div>
+
+//           {/* Background offset block for depth */}
+//           <div className="absolute inset-12 bg-accent/20 border-2 border-accent translate-x-8 translate-y-8 -z-10" />
+//         </motion.div>

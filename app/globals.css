@@ -123,6 +123,14 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Hide the Spline logo/watermark */
+  #logo, 
+  a[href*="spline.design"] {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
 }
 
 @keyframes fadeIn {
